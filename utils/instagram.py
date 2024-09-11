@@ -1,5 +1,4 @@
 import requests
-
 def fetch_instagram_post_data(post_code):
     url = "https://www.instagram.com/graphql/query"
     
@@ -45,6 +44,7 @@ def fetch_instagram_post_data(post_code):
     
     rawdata = data.get("data", {}).get("xdt_shortcode_media", "Not Found")
     
+    
     if rawdata == "Not Found":
         return None
      
@@ -62,13 +62,12 @@ def fetch_instagram_post_data(post_code):
         
         if not comment:
             continue
-        
-        comments.append(
-        f"Text: {comment.get('text', "Not Found")}\n"
-        f"User PFP: {comment.get("owner", {}).get('profile_pic_url', "Not Found")}\n"
-        f"Username: {comment.get("owner", {}).get("username", "Not Found")}\n"
-        f"Likes: {comment.get("edge_liked_by", {}).get("count", 0)}"
-    )
+        comments.append({
+            "text": comment.get('text', "Not Found"), 
+            "pfp": comment.get("owner", {}).get('profile_pic_url', "Not Found"),
+            "username": comment.get("owner", {}).get("username", "Not Found"),
+            "likes": comment.get("edge_liked_by", {}).get("count", 0),
+            })
         
     # owner info
     ownername = rawdata.get("owner", {}).get("username" , "Not Found")
@@ -89,7 +88,6 @@ def fetch_instagram_post_data(post_code):
             "video_play_count": video_play_count,
             "video_url": video_url,
             "display_url": display_url,
-            "ownername": ownername,
             "ownerfullname": ownerfullname,
             "ownerpfp": ownerpfp,
             "ownerposts": ownerposts,
@@ -98,16 +96,22 @@ def fetch_instagram_post_data(post_code):
             "comments": comments
             }
     else:
-        Raw_Images = rawdata.get("display_resources", {})
         image_links = []
-        for link in Raw_Images:
-            image_links.append(link["src"])
+        
+        images_urls = rawdata.get('edge_sidecar_to_children', {}).get('edges', {})
+        
+        for image in images_urls:
+            resource = image['node']['display_resources']
+            image = resource[len(resource)- 1]['src']
+            image_links.append(image)  
+        
+        if len(image_links) == 0:
+            image_links.append(rawdata.get('display_url', "no image in post"))
         
         return {
             "caption": caption,
             "likes": likes,
             "image_links": image_links,
-            "ownername": ownername,
             "ownerfullname": ownerfullname,
             "ownerpfp": ownerpfp,
             "ownerposts": ownerposts,

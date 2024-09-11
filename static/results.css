@@ -1,12 +1,11 @@
 .card {
-  width: 700px;
+  width: auto;
   background: #07182e;
   border-radius: 20px;
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   color: white;
@@ -44,4 +43,94 @@ button {
 
 button:hover {
   box-shadow: 0px 1px 7px 0px #ccc;
+}
+
+.video-player {
+  width: 100%;
+  max-width: 600px;
+  height: 700px;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: 5px;
+}
+
+.pfp {
+  width: 45px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.username {
+  margin-left: 8px;
+  margin-top: 9px;
+  font-size: 1em;
+}
+
+.comment {
+  margin-left: 8px;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.likes {
+  margin-left: 8px;
+  font-size: 1em;
+  color: red;
+}
+
+.plays {
+  margin-left: 8px;
+  font-size: 1em;
+  color: blue;
+}
+
+.comments_count {
+  margin-left: 8px;
+  font-size: 1em;
+  color: coral;
+}
+
+#slider {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+}
+
+#slider img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.prev {
+  left: 0;
+}
+.next {
+  right: 0;
+}
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }

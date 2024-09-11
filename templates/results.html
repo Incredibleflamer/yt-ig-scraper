@@ -4,23 +4,177 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scraper Results</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='results.css') }}"
-    />
+    <link rel="stylesheet" href="static/results.css" />
   </head>
   <body>
+    <!-- back button -->
     <a href="/">
       <button>Back</button>
     </a>
     <div class="card">
-      {% for key, value in data.items() %} {% if key == 'Thumbnail' %}
+      <!-- Youtube -->
+      {% if platform_type == "youtube" %} {% for key, value in data.items() %}
+      {% if key == 'Thumbnail' %}
       <img src="{{ value }}" alt="Thumbnail" class="thumbnail" />
       {% else %}
       <div class="info">
         <p><strong>{{ key }}:</strong> {{ value }}</p>
       </div>
       {% endif %} {% endfor %}
+
+      <!-- Instagrab posts -->
+      {% elif platform_type == "instagram_post" %}
+      <!-- User pfp & name -->
+      {% if 'ownerpfp' in data %}
+      <div class="profile-container">
+        <img
+          src="/proxy-image?url={{ data['ownerpfp'] | urlencode }}"
+          alt="{{ data['ownerfullname'] }}"
+          class="pfp"
+        />
+        <p class="username">
+          {{ data['ownerfullname'] }} | {{ data['ownerfollowers'] }} followers |
+          {{ data['ownerposts'] }} posts
+        </p>
+      </div>
+      {% endif %}
+
+      <!-- photos -->
+      {% if 'image_links' in data %}
+      <!--  -->
+      {% if data['image_links']|length > 1 %}
+      <div id="slider">
+        <img id="slideImage" src="" alt="Image Slider" />
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+      </div>
+      <script>
+        const imageLinks = {{ data.image_links | tojson }};
+
+        let currentIndex = 0;
+
+        function showSlide(index) {
+          const imageElement = document.getElementById('slideImage');
+          imageElement.src = `/proxy-image?url=${encodeURIComponent(imageLinks[index])}`;
+        }
+
+        function changeSlide(step) {
+          currentIndex = (currentIndex + step + imageLinks.length) % imageLinks.length;
+          showSlide(currentIndex);
+        }
+
+
+        showSlide(currentIndex);
+      </script>
+      {% else %}
+      <img
+        class="thumbnail"
+        src="/proxy-image?url={{ data['image_links'][0] | urlencode}}"
+        alt="unbale to"
+      />
+      <!--  -->
+      {% endif %} {% endif %}
+
+      <!-- caption -->
+      {% if 'caption' in data %}
+      <p class="info">Caption : {{ data['caption'] }}</p>
+      {% endif %}
+
+      <!-- likes -->
+      {% if 'likes' in data %}
+      <p class="likes">♥ {{ data['likes'] }}</p>
+      {% endif %}
+
+      <!-- comment_count -->
+      {% if 'comment_count' in data %}
+      <p class="comments_count">📝 {{ data['comment_count'] }}</p>
+      {% endif %}
+
+      <!-- comments -->
+      <br /><br />
+      <div class="info">Featured Comments :</div>
+      {% if 'comments' in data %} {% for comment in data.comments %}
+      <div class="profile-container">
+        <img
+          src="/proxy-image?url={{ comment['pfp'] | urlencode }}"
+          alt="{{ comment['username'] }}"
+          class="pfp"
+        />
+        <p class="username">{{ comment['username'] }}</p>
+      </div>
+      <p class="comment">{{ comment['text'] }}</p>
+      <p class="likes" style="margin-top: -8px">♥ {{ comment['likes'] }}</p>
+      {% endfor %} {% endif %}
+
+      <!-- Instagrab Reel -->
+      {% elif platform_type == "instagram_reel" %}
+
+      <!-- User pfp & name -->
+      {% if 'ownerpfp' in data %}
+      <div class="profile-container">
+        <img
+          src="/proxy-image?url={{ data['ownerpfp'] | urlencode }}"
+          alt="{{ data['ownerfullname'] }}"
+          class="pfp"
+        />
+        <p class="username">
+          {{ data['ownerfullname'] }} | {{ data['ownerfollowers'] }} followers |
+          {{ data['ownerposts'] }} posts
+        </p>
+      </div>
+      {% endif %}
+
+      <!-- Video Player with Thumbnail -->
+      {% if 'video_url' in data %}
+      <video
+        controls
+        class="video-player"
+        poster="/proxy-image?url={{ data['display_url'] | urlencode  }}"
+      >
+        <source src="{{ data['video_url'] }}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      {% endif %}
+
+      <!-- caption -->
+      {% if 'caption' in data %}
+      <p class="info">Caption : {{ data['caption'] }}</p>
+      {% endif %}
+
+      <!-- likes -->
+      {% if 'likes' in data %}
+      <p class="likes">♥ {{ data['likes'] }}</p>
+      {% endif %}
+
+      <!-- plays -->
+      {% if 'video_play_count' in data %}
+      <p class="plays">▶ {{ data['video_play_count'] }}</p>
+      {% endif %}
+
+      <!-- comment_count -->
+      {% if 'comment_count' in data %}
+      <p class="comments_count">📝 {{ data['comment_count'] }}</p>
+      {% endif %}
+
+      <br /><br />
+
+      <!-- comments -->
+      <div class="info">Featured Comments :</div>
+      {% if 'comments' in data %} {% for comment in data.comments %}
+      <div class="profile-container">
+        <img
+          src="/proxy-image?url={{ comment['pfp'] | urlencode }}"
+          alt="{{ comment['username'] }}"
+          class="pfp"
+        />
+        <p class="username">{{ comment['username'] }}</p>
+      </div>
+      <p class="comment">{{ comment['text'] }}</p>
+      <p class="likes" style="margin-top: -8px">♥ {{ comment['likes'] }}</p>
+      {% endfor %} {% endif %}
+
+      <!-- actual end lol -->
+      {% endif %}
     </div>
   </body>
 </html>
