@@ -1,0 +1,102 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e1e1e;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  position: relative;
+  color: white;
+}
+
+.input {
+  height: 60px;
+  font-size: 15px;
+  border: none;
+  color: #fff;
+  outline: none;
+  width: 60px;
+  transition: all ease 0.3s;
+  background-color: #191a1e;
+  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%),
+    inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.input:focus,
+.input:not(:invalid) {
+  padding-left: 65px;
+  width: 500px;
+  cursor: text;
+  box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%),
+    inset 1.5px 1.5px 3px #0e0e0e, inset -1.5px -1.5px 3px #5f5e5e;
+}
+
+.input:focus + .icon,
+.input:not(:invalid) + .icon {
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.container .icon {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.container .icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.past-searches {
+  width: 100%;
+  height: 400px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.past-searches::-webkit-scrollbar {
+  display: none;
+}
+
+.past-searches {
+  scrollbar-width: none;
+}
+
+.past-search-button {
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #000;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+  text-decoration: none;
+  border: none;
+}

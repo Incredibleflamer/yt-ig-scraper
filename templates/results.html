@@ -11,19 +11,21 @@
     <a href="/">
       <button>Back</button>
     </a>
+    <!-- Youtube -->
+    {% if platform_type == "youtube" %}
     <div class="card">
-      <!-- Youtube -->
-      {% if platform_type == "youtube" %} {% for key, value in data.items() %}
-      {% if key == 'Thumbnail' %}
-      <img src="{{ value }}" alt="Thumbnail" class="thumbnail" />
+      {% for key, value in data.items() %} {% if key == 'Thumbnail' %}
+      <img src="{{ value }}" alt="Thumbnail" class="thumbnail" style="align-self: center;" />
       {% else %}
       <div class="info">
         <p><strong>{{ key }}:</strong> {{ value }}</p>
       </div>
       {% endif %} {% endfor %}
+    </div>
 
-      <!-- Instagrab posts -->
-      {% elif platform_type == "instagram_post" %}
+    <!-- Instagrab posts -->
+    {% elif platform_type == "instagram_post" %}
+    <div class="card">
       <!-- User pfp & name -->
       {% if 'ownerpfp' in data %}
       <div class="profile-container">
@@ -70,7 +72,8 @@
       <img
         class="thumbnail"
         src="/proxy-image?url={{ data['image_links'][0] | urlencode}}"
-        alt="unbale to"
+        alt="unbale to" 
+        style="align-self: center;"
       />
       <!--  -->
       {% endif %} {% endif %}
@@ -105,6 +108,7 @@
       <p class="comment">{{ comment['text'] }}</p>
       <p class="likes" style="margin-top: -8px">♥ {{ comment['likes'] }}</p>
       {% endfor %} {% endif %}
+      </div>
 
       <!-- Instagrab Reel -->
       {% elif platform_type == "instagram_reel" %}
@@ -130,6 +134,7 @@
         controls
         class="video-player"
         poster="/proxy-image?url={{ data['display_url'] | urlencode  }}"
+        style="align-self: center;"
       >
         <source src="{{ data['video_url'] }}" type="video/mp4" />
         Your browser does not support the video tag.
@@ -172,9 +177,30 @@
       <p class="comment">{{ comment['text'] }}</p>
       <p class="likes" style="margin-top: -8px">♥ {{ comment['likes'] }}</p>
       {% endfor %} {% endif %}
-
-      <!-- actual end lol -->
-      {% endif %}
+      <!--  -->
     </div>
+    {% endif %}
+
+    <!-- Flipkart -->
+    <div class="product_grid">
+    {% if platform_type == "flipkart" %} {% for item in data %}
+    <div
+      class="product_container"
+      style="background: url('{{ item['image'] }}') center/cover no-repeat;">
+    >
+      <div class="product_overlay">
+        <div class="product_items"></div>
+        <div class="product_items product_head">
+          <p>{{ item['product'] }}</p>
+          <hr />
+        </div>
+        <div class="product_items product_price">
+          <p class="product_price2">{{ item['price'] }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %} 
+    </div>
+    {% endif %}
   </body>
 </html>

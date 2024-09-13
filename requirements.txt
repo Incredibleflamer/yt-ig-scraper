@@ -3,3 +3,5 @@ lxml
 requests
 pillow
 Flask
+selenium
+chromedriver-autoinstaller

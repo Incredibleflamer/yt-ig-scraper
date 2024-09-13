@@ -134,3 +134,84 @@ button:hover {
 .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+/* products */
+body {
+  background-color: #fef5df;
+}
+
+.product_container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  background-color: black;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+}
+
+.product_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr 2fr 1fr;
+  background: rgba(77, 77, 77, 0.9);
+  color: #fef5df;
+  opacity: 0;
+  transition: all 0.5s;
+  font-family: "Playfair Display", serif;
+  z-index: 1;
+}
+
+.product_items {
+  padding-left: 20px;
+  letter-spacing: 3px;
+}
+
+.product_price {
+  font-size: 22px;
+  line-height: 10px;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.7s;
+}
+
+.product_price .old {
+  text-decoration: line-through;
+  color: lighten(rgb(77, 77, 77), 40%);
+}
+
+.product_container:hover .product_overlay {
+  opacity: 1;
+}
+
+.product_container:hover .product_overlay .product_head {
+  transform: translateY(0px);
+}
+
+.product_container:hover .product_overlay .product_price {
+  transform: translateY(0px);
+  transition-delay: 0.3s;
+  opacity: 1;
+}
+
+.product_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
+}
+
+.product_container {
+  max-width: 100%;
+}

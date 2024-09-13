@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scraper Input Form</title>
+    <link rel="stylesheet" href="/static/search.css" />
+  </head>
+  <body>
+    <!-- search bar -->
+    <form action="/scrape" method="POST">
+      <h1 style="color: white">YT & IG & Flipkart Scraper</h1>
+      <div class="container">
+        <input type="text" name="url" class="input" required />
+        <div class="icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="ionicon"
+            viewBox="0 0 512 512"
+          >
+            <title>Search</title>
+            <path
+              d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+              fill="none"
+              stroke="currentColor"
+              stroke-miterlimit="10"
+              stroke-width="32"
+            ></path>
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-miterlimit="10"
+              stroke-width="32"
+              d="M338.29 338.29L448 448"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </form>
+    <!-- past searches -->
+    <h1 style="color: white; margin-top: 50px">Past Searches</h1>
+    <section class="past-searches">
+      {% for key in data.keys() %}
+      <form
+        action="/scrape"
+        method="POST"
+        style="margin: 0; padding: 0; width: 100%"
+      >
+        <input type="hidden" name="url" value="{{ key }}" />
+        <button type="submit" class="past-search-button">{{ key }}</button>
+      </form>
+      {% endfor %}
+    </section>
+  </body>
+</html>
